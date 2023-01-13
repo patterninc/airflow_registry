@@ -9,6 +9,5 @@ setup(
       author='Pattern',
       license='',
       python_requires='>=3.7.0',
-      packages=['airflow_registry']+find_packages(where='airflow_registry'),
-      package_dir={'': 'airflow_registry'}
+      packages=['airflow_registry']+find_packages(where='airflow_registry')
 )
