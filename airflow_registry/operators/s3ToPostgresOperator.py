@@ -5,8 +5,8 @@ from typing import TYPE_CHECKING, Iterable, Sequence
 from airflow.exceptions import AirflowFailException
 from airflow.models import BaseOperator
 from airflow.hooks.postgres_hook import PostgresHook
-from plugins.hooks.postgresCustomHook import PostgresCustomHook
-from plugins.hooks.s3CustomHook import S3CustomHook
+from airflow_registry.hooks.postgresCustomHook import PostgresCustomHook
+from airflow_registry.hooks.s3CustomHook import S3CustomHook
 
 import os
 import logging
