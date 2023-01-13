@@ -9,6 +9,5 @@ setup(
       author='Pattern',
       license='',
       python_requires='>=3.7.0',
-      packages=find_packages(where='.'),
-      package_dir={'': '.'}
+      packages=find_packages()
 )
