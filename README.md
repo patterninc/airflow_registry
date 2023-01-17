@@ -12,11 +12,11 @@ However, the way the astro images are set up, you cannot read in environment var
 
 1. You can build a custom image with a mounted github ssh token. This is the way Astronomer recommends and has documentation for: https://docs.astronomer.io/astro/develop-project?tab=github#install-python-packages-from-private-sources
 
-2. You can manually install the package when testing locally (put token in requirements.txt file or run pip install in webserver docker container) and then when you're ready to deploy to staging, use github actions to insert the token in the requirements.txt file after the repo is checked out. You can find an example of this here: https://github.com/patterninc/insights-airflow/blob/dev/.github/workflows/dev-ci-cd.yml. 
+2. You can manually install the package when testing locally (put token in requirements.txt file before running `astro dev start` or manually install using pip inside webserver docker container) and then when you're ready to deploy to staging, use github actions to insert the token in the requirements.txt file after the repo is checked out. You can find an example of this here: https://github.com/patterninc/insights-airflow/blob/dev/.github/workflows/dev-ci-cd.yml. 
 
 Whatever you do, DO NOT commit your github token. 
 
 
-Once the package is installed, an import statement would look like:
+Once the package is installed, an import statement would look like this:
 
 from airflow_registry.operators.s3ToPostgresOperator import S3ToPostgresOperator
