@@ -2,7 +2,9 @@
 Pattern's personal airflow registry for custom operators, sensors, and hooks
 
 
-How To Use In Your DAGS:
+How To Use In Your Airflow Project:
+
+Add 'git-all' to your packages.txt file.
 
 Typically, you can use the following statement to install a private github repo as a dependency in your requirements.txt file for your astro project:
 
