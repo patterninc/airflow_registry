@@ -10,4 +10,5 @@ setup(
       license='',
       python_requires='>=3.7.0',
       packages=['airflow_registry','airflow_registry.hooks','airflow_registry.sensors','airflow_registry.operators','airflow_registry.utils'],
+      install_requires=['apache-airflow-providers-slack>=7.1.0']
 )
