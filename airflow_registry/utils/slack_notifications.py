@@ -1,7 +1,7 @@
 from airflow.providers.slack.operators.slack_webhook import SlackWebhookOperator
 
 
-def slack_notification(context):
+def failure_alert(context):
     ti = context.get('task_instance')
     _task = ti.task_id
     _emoji = ':warning:' if "sensor" in _task else ':alarm:'
@@ -19,7 +19,7 @@ def slack_notification(context):
         log_url=ti.log_url)
 
     failed_alert = SlackWebhookOperator(
-        task_id='slack_notification',
-        http_conn_id='slack-notifications',
+        task_id='slack_failure_alert',
+        http_conn_id='slack_failure_alert',
         message=slack_msg)
     return failed_alert.execute(context=context)
