@@ -30,7 +30,3 @@ with DAG(
     schedule_interval='0 6 * * *',
 ) as dag:
 
-    d = dummyOperator(
-        task_id='dummy_task',
-    )
-
