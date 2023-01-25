@@ -17,6 +17,7 @@ Password: /T00000000/B00000000/XXXXXXXXXXXXXXXXXXXXXXXX
 4. Follow the instructions above to create a webhook pointed at a slack channel, and have your connection id = 'slack_failure_alert'
 
 **EXAMPLE DAG**
+
 from datetime import datetime
 from airflow_registry.utils import slack_notifications as sn
 from airflow import DAG
