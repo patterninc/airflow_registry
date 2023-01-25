@@ -15,3 +15,21 @@ Password: /T00000000/B00000000/XXXXXXXXXXXXXXXXXXXXXXXX
 2. At the top of your dag, put 'from airflow_registroy.utils import slack_notifications as sn
 3. in your DAG() parameters in default_args(), add 'on_failure_callback': sn.failure_alert
 4. Follow the instructions above to create a webhook pointed at a slack channel, and have your connection id = 'slack_failure_alert'
+
+**EXAMPLE DAG**
+from datetime import datetime
+from airflow_registry.utils import slack_notifications as sn
+from airflow import DAG
+
+with DAG(
+    dag_id="failure_dag",
+    start_date=datetime(2022, 6, 20),
+    default_args={
+        'on_failure_callback': sn.failure_alert
+    },
+    schedule_interval='0 6 * * *',
+) as dag:
+    d = dummyOperator(
+        task_id='dummy_task',
+    )
+
