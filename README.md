@@ -8,6 +8,8 @@ Pattern's personal airflow registry for custom operators, sensors, and hooks.
 
 2. Add ```git+https://github.com/patterninc/airflow_registry@main``` to your requirements.txt file
 
+3. Run ```pip install git+https://github.com/patterninc/airflow_registry@main``` so your machine recognizes the import in VSCode
+
 
 
 Once the package is installed, an import statement would look like this:
