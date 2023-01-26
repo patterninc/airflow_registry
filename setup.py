@@ -7,7 +7,7 @@ setup(
       version='0.1.0',
       description='Custom operators, sensors, and hooks to be shared across org',
       author='Pattern',
-      license='',
+      license='MIT License',
       python_requires='>=3.7.0',      
       packages=find_packages(),
       package_dir={'': '.'},
