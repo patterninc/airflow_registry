@@ -23,7 +23,6 @@ with DAG(
     dag_id="example_dag",
     start_date=datetime(2022, 6, 20),
     default_args={
-        'owner': 'grow',
         'on_failure_callback': sn.failure_alert
     },
     schedule_interval='0 6 * * *',
