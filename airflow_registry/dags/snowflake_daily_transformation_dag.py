@@ -26,3 +26,4 @@ def snowflake_daily_transformation_dag(sql_file_name, tags, snowflake_conn_id, t
           task_id=title + '_transformation',
           sql=sql_file_name,
       )
+  return dag
