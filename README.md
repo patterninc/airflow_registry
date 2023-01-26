@@ -13,25 +13,19 @@ Pattern's personal airflow registry for custom operators, sensors, and hooks.
 Once the package is installed, an import statement would look like this:
 ```
 from airflow_registry.operators.s3ToPostgresOperator import S3ToPostgresOperator
-from datetime import datetime
 from airflow_registry.utils import slack_notifications as sn
+from datetime import datetime
 from airflow import DAG
-from airflow.providers.snowflake.operators.snowflake import SnowflakeOperator
 
 from grow_airflow_utils.environment import constants as const
 
 with DAG(
-    dag_id="failure_dag",
+    dag_id="example_dag",
     start_date=datetime(2022, 6, 20),
     default_args={
         'owner': 'grow',
-        'on_failure_callback': sn.slack_notification
+        'on_failure_callback': sn.failure_alert
     },
     schedule_interval='0 6 * * *',
-    max_active_runs=1,
-    description='test new slack notification',
-    template_searchpath=const.ADCZAR_TRANSFORMATION_DIR,
-    tags=['delete me'],
-    catchup=False
 ) as dag:
 ```
