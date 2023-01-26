@@ -1,12 +1,12 @@
-from datetime import datetime
-
-from airflow import DAG
-from airflow.providers.snowflake.operators.snowflake import SnowflakeOperator
-
-from airflow_registry.utils import slack_notifications as sn
 
 def snowflake_daily_transformation_dag(sql_file_name, tags, snowflake_conn_id, template_searchpath, owner, optional_schedule_interval='0 6 * * *'):
+  from datetime import datetime
+  from airflow import DAG
+  from airflow.providers.snowflake.operators.snowflake import SnowflakeOperator
+  from airflow_registry.utils import slack_notifications as sn
+
   title = sql_file_name[:-4]
+  
   with DAG(
       dag_id=title,
       start_date=datetime(2023, 1, 1),
