@@ -1,6 +1,6 @@
 **HOW TO SET UP SLACK NOTIFICATIONS FOR YOUR REPOSITORY**
 ***
-1. Create a slack app https://api.slack.com/docs/slack-button#register_your_slack_app
+1. Create a slack app https://api.slack.com/docs/slack-button#register_your_slack_app https://api.slack.com/apps
 2. (Optional) create a channel in slack where you want alerts/notifications to appear
 3. Create a new webhook and select the channel that the webhook will point to. (one app can have many webhooks)
 4. To use the webhook in airflow, simply add the connection in Airflow. (avoid adding this particular connection to Parameter store, as it is currently not customizable and uses the same name across all instances)
