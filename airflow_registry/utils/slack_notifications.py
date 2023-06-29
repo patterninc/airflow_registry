@@ -5,13 +5,13 @@ def base_failure_alert(context, conn):
     ti = context.get('task_instance')
     _task = ti.task_id
     _emoji = ':alarm:'
-    _message = 'Unexpected error @Jeremy Mumford @Matt Brown'
+    _message = 'Unexpected error <@U03ES41MTV2> <@U037VV8LWFP>'
     if "alice" in _task:
         _emoji = ':taco:'
         _message = 'Alice currently only running once a day, you can probably ignore this'
     elif "sensor" in _task:
         _emoji = ':warning:'
-        _message = 'Possible data delay @Jeremy Mumford @Matt Brown'
+        _message = 'Possible data delay <@U03ES41MTV2> <@U037VV8LWFP>'
     slack_msg = """
     {emoji} {task} failed in *{dag}* {emoji}
     *Execution Time*: {exec_date}
