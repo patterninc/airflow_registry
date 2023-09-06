@@ -11,7 +11,7 @@ def base_failure_alert(context, conn):
         _message = 'Alice currently only running once a day, you can probably ignore this'
     elif "sensor" in _task:
         _emoji = ':warning:'
-        _message = 'Possible data delay <@U03ES41MTV2> <@U037VV8LWFP>'
+        _message = 'Possible data delay <@U037VV8LWFP>'
     slack_msg = """
     {emoji} {task} failed in *{dag}* {emoji}
     *Execution Time*: {exec_date}
