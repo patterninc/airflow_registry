@@ -26,7 +26,7 @@ def base_failure_alert(context, conn):
 
     failed_alert = SlackWebhookOperator(
         task_id='slack_failure_alert',
-        http_conn_id=conn,
+        slack_webhook_conn_id=conn,
         message=slack_msg)
     return failed_alert.execute(context=context)
 
