@@ -5,7 +5,7 @@ def base_failure_alert(context, conn):
     ti = context.get('task_instance')
     _task = ti.task_id
     _emoji = ':alarm:'
-    _message = 'Unexpected error <@U03ES41MTV2> <@U037VV8LWFP>'
+    _message = 'Unexpected error <@U037VV8LWFP>'
     if "alice" in _task:
         _emoji = ':taco:'
         _message = 'Alice currently only running once a day, you can probably ignore this'
