@@ -1,22 +1,32 @@
 # AIRFLOW_REGISTRY
-Pattern's personal airflow registry for custom operators, sensors, and hooks
+Pattern's personal airflow registry for custom operators, sensors, and hooks.
 
 
-How To Use In Your DAGS:
+**How To Use In Your Airflow Project**
 
-Typically, you can use the following statement to install a private github repo as a dependency in your requirements.txt file for your astro project:
+1. Add ```git-all``` to your packages.txt file.
 
-git+https://${GITHUB_TOKEN}@github.com/patterninc/airflow_registry.git@main #Pattern's airflow registry package
+2. Add ```git+https://github.com/patterninc/airflow_registry@main``` to your requirements.txt file
 
-However, the way the astro images are set up, you cannot read in environment variables to the requirements.txt file. So, there are a few ways to approach it:
+3. Run ```pip install git+https://github.com/patterninc/airflow_registry@main``` so your machine recognizes the import in VSCode
 
-1. You can build a custom image with a mounted github ssh token. This is the way Astronomer recommends and has documentation for: https://docs.astronomer.io/astro/develop-project?tab=github#install-python-packages-from-private-sources
-
-2. You can manually install the package when testing locally (put token in requirements.txt file before running `astro dev start` or manually install using pip inside webserver docker container) and then when you're ready to deploy to staging, use github actions to insert the token in the requirements.txt file after the repo is checked out. You can find an example of this here: https://github.com/patterninc/insights-airflow/blob/dev/.github/workflows/dev-ci-cd.yml. 
-
-Whatever you do, DO NOT commit your github token. 
 
 
 Once the package is installed, an import statement would look like this:
-
+```
 from airflow_registry.operators.s3ToPostgresOperator import S3ToPostgresOperator
+from airflow_registry.utils import slack_notifications as sn
+from datetime import datetime
+from airflow import DAG
+
+from grow_airflow_utils.environment import constants as const
+
+with DAG(
+    dag_id="example_dag",
+    start_date=datetime(2022, 6, 20),
+    default_args={
+        'on_failure_callback': sn.failure_alert
+    },
+    schedule_interval='0 6 * * *',
+) as dag:
+```
