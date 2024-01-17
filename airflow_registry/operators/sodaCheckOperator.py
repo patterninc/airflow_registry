@@ -1,4 +1,4 @@
-from airflow.operators import BaseOperator
+from airflow.models import BaseOperator
 import importlib
 import os
 
