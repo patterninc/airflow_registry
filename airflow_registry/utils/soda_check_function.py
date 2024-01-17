@@ -31,7 +31,7 @@ def check(scan_name, checks_subpath=None, config_file=None, data_source='snowfla
   scan.set_verbose()
   scan.add_configuration_yaml_str(config_file)
   scan.set_data_source_name(data_source)
-  scan.add_sodacl_yaml_files(f'{project_root}/')
+  scan.add_sodacl_yaml_files(f'{checks_path}/')
   scan.set_scan_definition_name(scan_name)
 
   result = scan.execute()
