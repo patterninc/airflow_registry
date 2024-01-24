@@ -37,3 +37,30 @@ def failure_alert(context):
 
 def content_failure_alert(context):
     return base_failure_alert(context, 'slack_dev_data_quality_airflow_alerts')
+
+
+def custom_failure_alert(context, conn, xcom_key):
+    ti = context.get('task_instance')
+    _task = ti.task_id
+    message = ti.xcom_pull(task_ids=_task, key=xcom_key)
+    _emoji = ':x:'
+    slack_msg = """
+    {emoji} Task Failed {emoji}
+    *Task:* {task}
+    *Dag:* {dag}
+    *Execution Time:* {exec_date}
+    {message}
+    <{log_url}|*Logs*>
+    """.format(
+        dag=ti.dag_id,
+        task=_task,
+        emoji=_emoji,
+        message=message,
+        exec_date=context.get('execution_date'),
+        log_url=ti.log_url)
+
+    failed_alert = SlackWebhookOperator(
+        task_id='slack_failure_alert',
+        slack_webhook_conn_id=conn,
+        message=slack_msg)
+    return failed_alert.execute(context=context)

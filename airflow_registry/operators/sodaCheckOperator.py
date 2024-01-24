@@ -1,6 +1,4 @@
 from airflow.models import BaseOperator
-import importlib
-import os
 
 class SodaCheckOperator(BaseOperator):
     def __init__(self, scan_name, config_file, check_function, data_source, project_root, checks_subpath, *args, **kwargs):
@@ -13,4 +11,4 @@ class SodaCheckOperator(BaseOperator):
         self.checks_subpath = checks_subpath
 
     def execute(self, context):
-        return self.check_function(scan_name=self.scan_name, config_file=self.config_file, data_source=self.data_source, project_root=self.project_root, checks_subpath=self.checks_subpath)
+        return self.check_function(scan_name=self.scan_name, config_file=self.config_file, data_source=self.data_source, project_root=self.project_root, checks_subpath=self.checks_subpath, context=context)
