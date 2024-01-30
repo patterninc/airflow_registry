@@ -60,6 +60,7 @@ def check(scan_name, checks_subpath=None, config_file=None, data_source='snowfla
   exit_code = scan.execute()
   data = scan.get_scan_results()
   config = json.loads(config_file)
+  slack_message = ''
 
   if snowflake_table:
     # Extract the connection details
