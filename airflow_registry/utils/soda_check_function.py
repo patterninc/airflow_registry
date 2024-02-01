@@ -52,7 +52,7 @@ def check(scan_name, checks_subpath=None, config_file=None, data_source='snowfla
   scan.sampler = CustomSampler()
   scan.add_configuration_yaml_str(config_file)
   scan.set_data_source_name(data_source)
-  scan.add_sodacl_yaml_files(f'{project_root}/')
+  scan.add_sodacl_yaml_files(checks_path)
 
   scan_name += datetime.datetime.now().strftime("_%Y%m%d%H%M%S")
   scan.set_scan_definition_name(scan_name)
