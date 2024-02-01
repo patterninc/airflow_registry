@@ -11,6 +11,6 @@ setup(
       python_requires='>=3.7.0',      
       packages=find_packages(),
       package_dir={'': '.'},
-      install_requires=['apache-airflow-providers-slack>=7.1.0','soda-core-snowflake>=3.1.0']
+      install_requires=['apache-airflow-providers-slack>=7.1.0','soda-core-snowflake>=3.0.50']
 )
 
