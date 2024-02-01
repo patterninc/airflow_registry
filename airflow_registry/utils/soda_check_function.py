@@ -89,18 +89,19 @@ def check(scan_name, checks_subpath=None, config_file=None, data_source='snowfla
             cursor.execute(sql)
             conn.commit()
           except Exception as e:
-            slack_message = f"An error occurred while executing the SQL command: {e}"
+            slack_message = f"*Snowflake Errors:* {e}\n"
             context['ti'].xcom_push(key='slack_fail_message', value=slack_message)
           finally:
             cursor.close()
   
   if exit_code != 0:
-    slack_message += f'*Scan Name:* {scan_name}\n'
+    logs_string = scan.get_logs_text()
+    summary = scan.get_logs_text()[logs_string.index('Oops!'):logs_string.index('pass.')+len("pass.")]
+    slack_message += f'*Scan Name:* {scan_name}\n    *Results:* {summary}\n\n'
     if scan.has_error_logs():
-      summary = scan.get_logs_text().split('Oops!')[1].split('Summary:')[0].strip()
-      slack_message += f'*Results:* {summary}\n\n*Scan Error Logs* \n\n {scan.get_error_logs_text()}\n\n\n'
+      slack_message += f'*Scan Error Logs* \n\n {scan.get_error_logs_text()}\n\n\n'
     if scan.has_check_fails():
-      slack_message += f'*Failed Data Quality Checks:*\n\n'
+      slack_message += f'\n*Failed Data Quality Checks:*\n\n'
       for failed_check in scan.get_checks_fail():
         slack_message += f"Table Name: {failed_check.partition.table.table_name}\n Check Name: {failed_check.name}\n Failed Rows: {failed_check.get_log_diagnostic_dict()['value']} \n\n"
     context['ti'].xcom_push(key='slack_fail_message', value=slack_message)
