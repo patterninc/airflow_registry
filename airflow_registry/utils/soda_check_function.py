@@ -101,9 +101,17 @@ def check(scan_name, checks_subpath=None, config_file=None, data_source='snowfla
     if scan.has_error_logs():
       slack_message += f'*Scan Error Logs* \n\n {scan.get_error_logs_text()}\n\n\n'
     if scan.has_check_fails():
-      slack_message += f'\n*Failed Data Quality Checks:*\n\n'
-      for failed_check in scan.get_checks_fail():
-        slack_message += f"Table Name: {failed_check.partition.table.table_name}\n Check Name: {failed_check.name}\n Failed Rows: {failed_check.get_log_diagnostic_dict()['value']} \n\n"
+      slack_message += f'\n*Failed Records:*\n\n'
+      for message in scan.sampler.failed_rows:
+        slack_message += message['row'][-1] + "\n"
     context['ti'].xcom_push(key='slack_fail_message', value=slack_message)
+    printPrettyLogs(scan)
     raise ValueError("Soda Scan failed.")
+  
+def printPrettyLogs(scan):
+  print("\n<><><><><><><><><><><><><><><><><><><><><><><><>TEST RESULTS<><><><><><><><><><><><><><><><><><><><><><><><>\n")
+  for failure in scan.get_checks_fail():
+    for metric in failure.metrics.values():
+      query = metric.query
+    print(f"\nCheck Name: {failure.name}\nFailed Rows: {failure.get_log_diagnostic_dict()['value']}\nCheck SQL: {query}\n\n")
   
