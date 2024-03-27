@@ -59,6 +59,7 @@ def check(scan_name, checks_subpath=None, config_file=None, data_source='snowfla
 
   exit_code = scan.execute()
   data = scan.get_scan_results()
+  print(data)
   config = json.loads(config_file)
   slack_message = ''
 
@@ -101,9 +102,17 @@ def check(scan_name, checks_subpath=None, config_file=None, data_source='snowfla
     if scan.has_error_logs():
       slack_message += f'*Scan Error Logs* \n\n {scan.get_error_logs_text()}\n\n\n'
     if scan.has_check_fails():
-      slack_message += f'\n*Failed Records:*\n\n'
+      current_table_name = ''
       for message in scan.sampler.failed_rows:
-        slack_message += message['row'][-1] + "\n"
+        table_name = message['table_name']
+        failed_row_message = message['row'][-1]
+
+        if table_name != current_table_name:
+          slack_message += f"\n\n*{table_name}*\n"
+          current_table_name = table_name
+
+        slack_message += failed_row_message + "\n"
+
     context['ti'].xcom_push(key='slack_fail_message', value=slack_message)
     printPrettyLogs(scan)
     raise ValueError("Soda Scan failed.")
