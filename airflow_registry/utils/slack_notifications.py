@@ -49,8 +49,8 @@ def custom_failure_alert(context, conn, xcom_key):
     *Task:* {task}
     *Dag:* {dag}
     *Execution Time:* {exec_date}
-    {message}
     <{log_url}|*Logs*>
+    {message}
     """.format(
         dag=ti.dag_id,
         task=_task,
