@@ -4,7 +4,7 @@ from setuptools import setup, find_packages
 
 setup(
       name='airflow_registry',
-      version='0.1.9',
+      version='0.2.0',
       description='Custom operators, sensors, and hooks to be shared across org',
       author='Pattern',
       license='MIT License',
