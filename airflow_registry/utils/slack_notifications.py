@@ -6,8 +6,12 @@ from airflow.providers.slack.operators.slack import SlackAPIPostOperator
 def base_failure_alert(context, conn):
     ti = context.get("task_instance")
     environment: str | None = os.getenv("ENVIRONMENT")
+    show_env = os.getenv("LOG_ENV_ON_SLACK_ALERTS") is not None
+
     _task = ti.task_id
-    _environment = f"Environment: *{environment.upper()}* - " if environment else "\b"
+    _environment = (
+        f"Environment: *{environment.upper()}* - " if show_env and environment else "\b"
+    )
     _emoji = ":alarm:"
     _message = "Unexpected error"
     if "alice" in _task:
