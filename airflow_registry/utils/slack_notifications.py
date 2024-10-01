@@ -1,16 +1,15 @@
+import os
 from airflow.providers.slack.operators.slack_webhook import SlackWebhookOperator
 from airflow.providers.slack.operators.slack import SlackAPIPostOperator
-from typing import Optional
 
 
-def base_failure_alert(
-    context, conn, environment: Optional[str] = None, message: Optional[str] = None
-):
+def base_failure_alert(context, conn):
     ti = context.get("task_instance")
+    environment: str | None = os.getenv("ENVIRONMENT")
     _task = ti.task_id
     _environment = f"Environment: *{environment.upper()}* - " if environment else "\b"
     _emoji = ":alarm:"
-    _message = message if message else "Unexpected error"
+    _message = "Unexpected error"
     if "alice" in _task:
         _emoji = ":taco:"
         _message = (
@@ -39,12 +38,8 @@ def base_failure_alert(
     return failed_alert.execute(context=context)
 
 
-def failure_alert(
-    context, environment: Optional[str] = None, message: Optional[str] = None
-):
-    return base_failure_alert(
-        context, "slack_failure_alert", environment=environment, message=message
-    )
+def failure_alert(context):
+    return base_failure_alert(context, "slack_failure_alert")
 
 
 def content_failure_alert(context):
