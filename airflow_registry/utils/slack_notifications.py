@@ -1,10 +1,14 @@
+import os
 from airflow.providers.slack.operators.slack_webhook import SlackWebhookOperator
 from airflow.providers.slack.operators.slack import SlackAPIPostOperator
 
 
 def base_failure_alert(context, conn):
     ti = context.get("task_instance")
+    environment: str | None = os.getenv("SLACK_NOTIFICATIONS__ENVIRONMENT")
+
     _task = ti.task_id
+    _environment = f"Environment: *{environment.upper()}* - " if environment else "\b"
     _emoji = ":alarm:"
     _message = "Unexpected error"
     if "alice" in _task:
@@ -16,7 +20,7 @@ def base_failure_alert(context, conn):
         _emoji = ":warning:"
         _message = "Possible data delay"
     slack_msg = """
-    {emoji} {task} failed in *{dag}* {emoji}
+    {emoji} {environment} {task} failed in *{dag}* {emoji}
     *Execution Time*: {exec_date}
     {message}, investigate at {log_url}
     """.format(
@@ -24,6 +28,7 @@ def base_failure_alert(context, conn):
         task=_task,
         emoji=_emoji,
         message=_message,
+        environment=_environment,
         exec_date=context.get("execution_date"),
         log_url=ti.log_url,
     )
@@ -70,10 +75,10 @@ def custom_failure_alert(context, conn, xcom_key):
 
 
 def dqc_failure_alert(context, channel, conn, xcom_key):
-    ti = context.get('task_instance')
+    ti = context.get("task_instance")
     _task = ti.task_id
     message = ti.xcom_pull(task_ids=_task, key=xcom_key)
-    _emoji = ':x:'
+    _emoji = ":x:"
     slack_msg = """
     {emoji} Checks Failed {emoji}
     *Execution Time:* {exec_date}
@@ -82,14 +87,15 @@ def dqc_failure_alert(context, channel, conn, xcom_key):
     """.format(
         emoji=_emoji,
         message=message,
-        exec_date=context.get('execution_date'),
-        log_url=ti.log_url)
+        exec_date=context.get("execution_date"),
+        log_url=ti.log_url,
+    )
 
     failed_alert = SlackAPIPostOperator(
-            task_id='slack_message',
-            slack_conn_id=conn,
-            channel=channel,
-            text=slack_msg,
-            username=''
-        )
+        task_id="slack_message",
+        slack_conn_id=conn,
+        channel=channel,
+        text=slack_msg,
+        username="",
+    )
     return failed_alert.execute(context=context)
