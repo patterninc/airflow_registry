@@ -26,12 +26,7 @@ def base_failure_alert(context, conn):
     _environment = f"Environment: *{environment.upper()}* - " if environment else "\b"
     _emoji = ":alarm:"
     _message = "Unexpected error"
-    if "alice" in _task:
-        _emoji = ":taco:"
-        _message = (
-            "Alice currently only running once a day, you can probably ignore this"
-        )
-    elif "sensor" in _task:
+    if "sensor" in _task:
         _emoji = ":warning:"
         _message = "Possible data delay"
 
