@@ -1,0 +1,16 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: airflow-registry
+  description: 'Pattern''s personal airflow registry for custom operators, sensors, and hooks'
+  annotations:
+    repo: patterninc/airflow_registry
+  labels:
+    CostCenter: DATA
+    Environment: prod
+    Name: airflow-registry
+    Owner: dev-data-acquisition
+    Department: DATA
+    CreatedBy: Backstage
+spec:
+  type: service
